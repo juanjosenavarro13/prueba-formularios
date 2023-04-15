@@ -13,22 +13,27 @@ export class AppComponent {
     this.form = this.fb.group({
       flights: this.fb.array([]),
     });
+
+    this.addFlight('madrid', 'bilbao', 'pepe', 'alvarez', '33ga6');
+    this.addFlight('sevilla', 'barcelona', 'antonio', 'suarez', '53ga6');
   }
 
   get flights(): FormArray {
     return this.form.get('flights') as FormArray;
   }
 
-  newFlight(): FormGroup {
+  private newFlight(ida:string = '', vuelta:string = '', name:string = '', surname:string = '', pnr:string = ''): FormGroup {
     return this.fb.group({
-      name: ['',Validators.required],
-      surname: ['',Validators.required],
-      pnr: ['', Validators.required]
+      ida: [ida],
+      vuelta: [vuelta],
+      name: [name,Validators.required],
+      surname: [surname,Validators.required],
+      pnr: [pnr, Validators.required]
     });
   }
 
-  addFlight() {
-    this.flights.push(this.newFlight());
+  addFlight(ida:string = '', vuelta:string = '', name:string = '', surname:string = '', pnr:string = '') {
+    this.flights.push(this.newFlight(ida, vuelta, name, surname, pnr));
   }
 
   removeFlight(i: number) {
@@ -36,6 +41,10 @@ export class AppComponent {
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    console.log('submit',this.form.value);
+  }
+
+  sendFlight(flight:any) {
+    console.log('send',flight)
   }
 }

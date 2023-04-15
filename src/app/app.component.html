@@ -1,11 +1,17 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form">
 
 
   flights:
   <div formArrayName="flights">
     <div *ngFor="let flight of flights.controls; let i=index">
       <div [formGroupName]="i">
-        {{i}}
+        {{i}} - {{ flight.value.ida }} - {{ flight.value.vuelta }} <br>
+        <ng-container *ngIf="flight.value.ida === '' && flight.value.vuelta === ''">
+          ida:
+          <input type="text" formControlName="ida">
+          vuelta:
+          <input type="text" formControlName="vuelta">
+        </ng-container>
         name :
         <input type="text" formControlName="name">
         surname:
@@ -14,6 +20,7 @@
         <input type="text" formControlName="pnr">
 
         <button (click)="removeFlight(i)">Remove</button>
+        <button (click)="sendFlight(flight.value)" [disabled]="!flight.valid">send</button>
       </div>
     </div>
   </div>
@@ -23,7 +30,7 @@
   </p>
 
   <p>
-    <button type="submit" [disabled]="!form.valid || flights.length === 0">Submit</button>
+    <button type="button" (click)="onSubmit()" [disabled]="!form.valid || flights.length === 0">Submit</button>
   </p>
 
 </form>
