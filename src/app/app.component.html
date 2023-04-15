@@ -1,0 +1,33 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+  flights:
+  <div formArrayName="flights">
+    <div *ngFor="let flight of flights.controls; let i=index">
+      <div [formGroupName]="i">
+        {{i}}
+        name :
+        <input type="text" formControlName="name">
+        surname:
+        <input type="text" formControlName="surname">
+        pnr:
+        <input type="text" formControlName="pnr">
+
+        <button (click)="removeFlight(i)">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    <button type="button" (click)="addFlight()">Add</button>
+  </p>
+
+  <p>
+    <button type="submit" [disabled]="!form.valid || flights.length === 0">Submit</button>
+  </p>
+
+</form>
+
+
+
+{{this.form.value | json}}
